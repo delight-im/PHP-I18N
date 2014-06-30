@@ -45,6 +45,25 @@ Guide to internationalization (I18N) in PHP with simple wrapper class
  3. Enter your translations for the given source texts
  4. Press `Save`
 
+### Use gettext with sprintf-style formatting
+
+Instead of concatenating single parts of a sentence with gettext, use two underscores (`__(...)`) instead of one (`_(...)`) to add placeholders and formatting to the gettext function.
+
+Use the first argument just like with gettext's standard function but add any number of placeholders inside, either for strings (`%s`), for integers (`%d`) or for floats (`%f`). Pass the replacements in the subsequent arguments.
+
+If there is more than one placeholder/replacement, always number the placeholders with `%1$s`, `%2$d`, `%3$d`, `%4$s`, etc.
+
+Read the [sprintf documentation](http://www.php.net/manual/en/function.sprintf.php) for help with more complex formatting.
+
+**Examples:**
+
+```
+// There are 5 monkeys in the tree
+echo __('There are %d monkeys in the tree', 4+1);
+// There are 3 monkeys in the garden
+echo __('There are %1$d monkeys in the %2$s', 3, _('garden'));
+```
+
 ## Notes
 
  * gettext data is usually cached so it may be necessary to restart the web server for changes to take effect
