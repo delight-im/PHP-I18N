@@ -71,4 +71,23 @@ class I18N {
         return preg_replace('/[^a-zA-Z_]/', '', $text);
     }
 
-} 
+}
+
+/**
+ * Use two underscores (_) instead of one to add placeholders to the gettext function (syntactic sugar)
+ *
+ * Use the first argument just like with gettext's standard function but add any number of placeholders inside
+ *
+ * Insert placeholders for strings (%s), for integers (%d) or for floats (%f) and pass the replacements after that
+ *
+ * If there is more than one placeholder/replacement, always number the placeholders with %1$s, %2$s, %3$d, %4$d, etc.
+ *
+ * Example #1: echo __('There are %d monkeys in the tree', 5);
+ *
+ * Example #2: echo __('There are %1$d monkeys in the %2$s', 5, _('garden'));
+ *
+ * More info: http://www.php.net/manual/en/function.sprintf.php
+ */
+function __($str, $r1, $r2 = NULL, $r3 = NULL, $r4 = NULL, $r5 = NULL, $r6 = NULL, $r7 = NULL, $r8 = NULL) {
+    return sprintf($str, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8);
+}
