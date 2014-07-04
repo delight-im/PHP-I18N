@@ -15,6 +15,7 @@ If you're familiar with gettext already, just use our class as indicated in the 
 If you're new to gettext, please read the tutorial below. If you have any questions, feel free to open a new issue in this repository.
 
 ```
+@session_start();
 require_once('./classes/I18N.php');
 I18N::init('messages', './i18n', 'en_US', array(
     '/(^de(-.*?)?$)/i' => 'de_DE',
