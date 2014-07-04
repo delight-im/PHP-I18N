@@ -23,18 +23,31 @@
  */
 class I18N {
 
-    const DEFAULT_LANGUAGE = 'en_US';
+    const SESSION_LANGUAGE_PREFERENCE = 'i18n_language_preference';
 
     /**
      * Sets up gettext for the given language with the domain and directory provided
      *
-     * @param string $language the language (<ll_CC>, e.g. en_US or de_DE) to use
      * @param string $domain the gettext domain to use (usually your project name or <messages>)
      * @param string $directory the path to the directory containing the gettext locale data (without trailing slash)
+     * @param string $defaultLanguage the default language identifier for gettext to locate translations by
+     * @param array|null $mappings (optional) the mappings from Accept-Language values (as regular expressions) to the appropriate gettext language identifiers
+     * @throws Exception if the initialization fails
      */
-    public static function init($language, $domain, $directory) {
-        // sanitize the language name (which may be user input)
-        $language = self::clean($language);
+    public static function init($domain, $directory, $defaultLanguage, $mappings = array()) {
+        // first check if we have an active session to load/save the language preference
+        if (!self::isSessionActive()) {
+            throw new Exception('You must call session_start() before you can use the I18N class');
+        }
+
+        // get the language from the preference in session or auto-detect it
+        if (isset($_SESSION[self::SESSION_LANGUAGE_PREFERENCE])) {
+            $language = $_SESSION[self::SESSION_LANGUAGE_PREFERENCE];
+        }
+        else {
+            $language = self::getAutoDetectedLanguage($defaultLanguage, $mappings);
+            $_SESSION[self::SESSION_LANGUAGE_PREFERENCE] = $language;
+        }
 
         // set up gettext for the given configuration
         putenv('LANG='.$language.'.utf8');
@@ -43,32 +56,49 @@ class I18N {
         bind_textdomain_codeset($domain, 'UTF-8');
         textdomain($domain);
 
-        // tell all caches that the page content may vary with different <Accept-Language> headers
+        // tell all caches that the page content may vary by <Accept-Language> header
         header('Vary: Accept-Language');
     }
 
-    /**
-     * Returns the client's preferred language
-     *
-     * @return string the client's preferred language
-     */
-    public static function getClientLanguage() {
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            if (empty($locale)) {
-                return self::DEFAULT_LANGUAGE;
-            }
-            else {
-                return $locale;
+    private static function getAutoDetectedLanguage($defaultLanguage, $mappings) {
+        // get the preferred language from the browser
+        $browserLanguage = self::getBrowserLanguage();
+
+        // if a preferred language has been detected
+        if (isset($browserLanguage)) {
+            // try to find a matching language identifier for the browser language in the given mappings
+            foreach ($mappings as $acceptLanguageRegex => $languageIdentifier) {
+                if (preg_match($acceptLanguageRegex, $browserLanguage)) {
+                    return $languageIdentifier;
+                }
             }
         }
+
+        // if no language could be auto-detected from the browser's language with the given mappings
+        return $defaultLanguage;
+    }
+
+    /**
+     * Returns the user's preferred language from the browser
+     *
+     * @return string|null the preferred language from the browser or NULL
+     */
+    public static function getBrowserLanguage() {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            return locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        }
         else {
-            return self::DEFAULT_LANGUAGE;
+            return NULL;
         }
     }
 
-    private static function clean($text) {
-        return preg_replace('/[^a-zA-Z_]/', '', $text);
+    private static function isSessionActive() {
+        if (version_compare(phpversion(), '5.4.0', '>=')) {
+            return session_status() === PHP_SESSION_ACTIVE;
+        }
+        else {
+            return session_id() !== '';
+        }
     }
 
 }

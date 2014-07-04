@@ -8,13 +8,30 @@ Guide to internationalization (I18N) in PHP with simple wrapper class
  * gettext
  * [Poedit](http://poedit.net/)
 
-## Usage
+## Example usage
+
+If you're familiar with gettext already, just use our class as indicated in the example below and make your normal calls to gettext. Our class comes with full documentation, so just refer to the PHP docs of the methods that are used.
+
+If you're new to gettext, please read the tutorial below. If you have any questions, feel free to open a new issue in this repository.
+
+```
+require_once('./classes/I18N.php');
+I18N::init('messages', './i18n', 'en_US', array(
+    '/(^de(-.*?)?$)/i' => 'de_DE',
+    '/(^en(-.*?)?$)/i' => 'en_US',
+    '/(^es(-.*?)?$)/i' => 'es_ES'
+));
+```
+
+The code above initializes gettext for the domain `messages` and searches for translations in folder `i18n`. It will auto-detect the user's language using the given mappings and default to `en_US` if no language could be detected.
+
+## Tutorial
 
 ### Start using gettext to reference strings
 
  * Instead of writing strings in PHP directly (e.g. `'This is some text'`), start using `_('This is some text')` everywhere. At first, you won't see any differences. But later, you can easily add translations for any language and even let third-party translation services do the work without touching the code.
  * For your texts, use units as large as possible. This could be a single word (e.g. `Save` on a button), several words (e.g. `Sign up` in a headline) or full sentences (e.g. `Your account has been created.`).
- * If you need to insert variable numbers or strings inside of your translations, add placeholders (e.g. `You have %d new messages`) and wrap the call to gettext inside `sprintf(...)`, e.g. `sprintf(_('You have %d new messages'), 32)`
+ * If you need to insert variable numbers or strings inside of your translations, add placeholders (e.g. `You have %d new messages`) and pass the replacements afterwards. To do so, you just have to use `__()` (two underscores, from our class file) instead of the normal `_()` (single underscore) for gettext. Example: `__('You have %d new messages', 32)`
 
 ### Add new languages with Poedit
 
