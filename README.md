@@ -31,7 +31,7 @@ The code above initializes gettext for the domain `messages` and searches for tr
 
  * Instead of writing strings in PHP directly (e.g. `'This is some text'`), start using `_('This is some text')` everywhere. At first, you won't see any differences. But later, you can easily add translations for any language and even let third-party translation services do the work without touching the code.
  * For your texts, use units as large as possible. This could be a single word (e.g. `Save` on a button), several words (e.g. `Sign up` in a headline) or full sentences (e.g. `Your account has been created.`).
- * If you need to insert variable numbers or strings inside of your translations, add placeholders (e.g. `You have %d new messages`) and pass the replacements afterwards. To do so, you just have to use `__()` (two underscores, from our class file) instead of the normal `_()` (single underscore) for gettext. Example: `__('You have %d new messages', 32)`
+ * If you need to insert variable numbers or strings inside of your translations, please refer to [the related part of our tutorial below](#use-gettext-with-sprintf-style-formatting).
 
 ### Add new languages with Poedit
 
@@ -53,7 +53,7 @@ The code above initializes gettext for the domain `messages` and searches for tr
  16. Press `Save`
  17. If your configuration for Poedit is correct, both a `*.po` and `*.mo` file should have been created for your new language
  18. Upload both files to the server (to `i18n/ll_CC/LC_MESSAGES/messages.[po|mo]`
- 19. Include the class `I18N.php` in your PHP files (at the top) and call `I18N::init($lang, 'messages', './i18n')` where `$lang` is your `ll_CC` string (e.g. `en_US`) that defines the language of your page
+ 19. Include the class `I18N.php` at the top of your PHP files as indicated in the [example usage](#example-usage)
 
 ### Update existing languages with Poedit
 
@@ -79,6 +79,8 @@ Read the [sprintf documentation](http://www.php.net/manual/en/function.sprintf.p
 echo __('There are %d monkeys in the tree', 4+1);
 // There are 3 monkeys in the garden
 echo __('There are %1$d monkeys in the %2$s', 3, _('garden'));
+// You have 32 new messages
+echo __('You have %d new messages', 32);
 ```
 
 ## Notes
