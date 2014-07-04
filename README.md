@@ -2,6 +2,10 @@
 
 Guide to internationalization (I18N) in PHP with simple wrapper class
 
+Our class comes with full documentation, so just refer to the PHP docs in case of doubt.
+
+If you have any question, feel free to open a new issue in this repository.
+
 ## Requirements
 
  * PHP 5.3+
@@ -9,10 +13,6 @@ Guide to internationalization (I18N) in PHP with simple wrapper class
  * [Poedit](http://poedit.net/)
 
 ## Example usage
-
-If you're familiar with gettext already, just use our class as indicated in the example below and make your normal calls to gettext. Our class comes with full documentation, so just refer to the PHP docs of the methods that are used.
-
-If you're new to gettext, please read the tutorial below. If you have any questions, feel free to open a new issue in this repository.
 
 ### Initializing gettext with auto-detected language
 
@@ -28,7 +28,7 @@ I18N::init('messages', './i18n', 'en_US', array(
 
 The code above initializes gettext for the domain `messages` and searches for translations in folder `i18n`. It will auto-detect the user's language using the given mappings and default to `en_US` if no language could be detected.
 
-### Overriding the auto-detected language with a manual user selection
+### Change default language to user-selected language
 
 ```
 if (isset($_GET['setLocale'])) {
