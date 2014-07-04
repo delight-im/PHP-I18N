@@ -14,6 +14,8 @@ If you're familiar with gettext already, just use our class as indicated in the 
 
 If you're new to gettext, please read the tutorial below. If you have any questions, feel free to open a new issue in this repository.
 
+### Initializing gettext with auto-detected language
+
 ```
 @session_start();
 require_once('./classes/I18N.php');
@@ -25,6 +27,16 @@ I18N::init('messages', './i18n', 'en_US', array(
 ```
 
 The code above initializes gettext for the domain `messages` and searches for translations in folder `i18n`. It will auto-detect the user's language using the given mappings and default to `en_US` if no language could be detected.
+
+### Overriding the auto-detected language with a manual user selection
+
+```
+if (isset($_GET['setLocale'])) {
+    I18N::changeLanguage($_GET['setLocale']);
+}
+```
+
+Let the user change their language manually by providing a link such as `<a href="/?setLocale=es_ES">Español</a>` and including the code above immediately after `require_once('./classes/I18N.php');`.
 
 ## Tutorial
 

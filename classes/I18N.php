@@ -60,6 +60,15 @@ class I18N {
         header('Vary: Accept-Language');
     }
 
+    /**
+     * Manually sets the language preference to the given identifier provided by the user (e.g. via language selection in drop-down menu)
+     *
+     * @param string $newLanguageIdentifier the identifier of the new language to use for all pages
+     */
+    public static function changeLanguage($newLanguageIdentifier) {
+        $_SESSION[self::SESSION_LANGUAGE_PREFERENCE] = htmlspecialchars(trim($newLanguageIdentifier));
+    }
+
     private static function getAutoDetectedLanguage($defaultLanguage, $mappings) {
         // get the preferred language from the browser
         $browserLanguage = self::getBrowserLanguage();
