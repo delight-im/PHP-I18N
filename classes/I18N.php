@@ -128,5 +128,5 @@ class I18N {
  * More info: http://www.php.net/manual/en/function.sprintf.php
  */
 function __($str, $r1, $r2 = NULL, $r3 = NULL, $r4 = NULL, $r5 = NULL, $r6 = NULL, $r7 = NULL, $r8 = NULL) {
-    return sprintf($str, $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8);
+    return sprintf(_($str), $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8);
 }
