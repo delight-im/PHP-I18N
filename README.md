@@ -9,7 +9,8 @@ If you have any question, feel free to open a new issue in this repository.
 ## Requirements
 
  * PHP 5.3+
- * gettext
+ * [GNU gettext](http://php.net/manual/de/book.gettext.php)
+ * [Intl extension](http://php.net/manual/de/book.intl.php)
  * [Poedit](http://poedit.net/)
 
 ## Example usage
