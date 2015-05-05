@@ -113,20 +113,22 @@ class I18N {
 }
 
 /**
- * Use two underscores (_) instead of one to add placeholders to the gettext function (syntactic sugar)
+ * Use two underscores (_) instead of one to add placeholders to the gettext function
  *
- * Use the first argument just like with gettext's standard function but add any number of placeholders inside
+ * Just as with normal gettext usage, pass the translation string as the first argument
  *
- * Insert placeholders for strings (%s), for integers (%d) or for floats (%f) and pass the replacements after that
+ * Include any number of placeholders for strings (%s), integers (%d), floats (%f) etc. in that string
  *
- * If there is more than one placeholder/replacement, always number the placeholders with %1$s, %2$s, %3$d, %4$d, etc.
+ * This uses the "printf" format string syntax from the C language: http://www.php.net/manual/en/function.sprintf.php
+ *
+ * Then pass the replacements for those placeholders as additional arguments after the translation string
  *
  * Example #1: echo __('There are %d monkeys in the tree', 5);
  *
- * Example #2: echo __('There are %1$d monkeys in the %2$s', 5, _('garden'));
- *
- * More info: http://www.php.net/manual/en/function.sprintf.php
+ * Example #2: echo __('There are %1$d monkeys in the %2$s', 3, _('garden'));
  */
-function __($str, $r1, $r2 = NULL, $r3 = NULL, $r4 = NULL, $r5 = NULL, $r6 = NULL, $r7 = NULL, $r8 = NULL) {
-    return sprintf(_($str), $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8);
+function __($str) {
+    $args = func_get_args();
+    $args[0] = _($str);
+    return call_user_func_array('sprintf', $args);
 }
