@@ -1,0 +1,18 @@
+{
+	"name": "delight-im/i18n",
+	"description": "Internationalization and localization for PHP",
+	"require": {
+		"php": ">=5.6.0",
+		"ext-gettext": "*",
+		"ext-intl": "*"
+	},
+	"type": "library",
+	"keywords": [ "internationalization", "localization", "translation", "language", "locale", "gettext", "intl", "i18n", "l10n" ],
+	"homepage": "https://github.com/delight-im/PHP-I18N",
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"Delight\\I18n\\": "src/"
+		}
+	}
+}
