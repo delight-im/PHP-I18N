@@ -161,8 +161,9 @@ This will check and decide based on the following factors (in that order):
     1. the `lc` parameter
  1. Session field defined via `I18n#setSessionField` (e.g. `$i18n->setSessionField('locale');`)
  1. Cookie defined via `I18n#setCookieName` (e.g. `$i18n->setCookieName('lc');`), with an optional lifetime defined via `I18n#setCookieLifetime` (e.g. `$i18n->setCookieLifetime(60 * 60 * 24);`), where a value of `null` means that the cookie is to expire at the end of the current browser session
+ 1. HTTP request header `Accept-Language` (e.g. `en-US,en;q=0.5`)
 
-You will usually choose a single one of these options to store and transport your locale codes. The first three options may provide advantages in terms of search engine optimization (SEO) and caching.
+You will usually choose a single one of these options to store and transport your locale codes, with other factors (specifically the last one) as fallback options. The first three options (and the last one) may provide advantages in terms of search engine optimization (SEO) and caching.
 
 #### Manually
 
