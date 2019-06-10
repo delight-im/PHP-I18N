@@ -197,7 +197,7 @@ function _c($text, $context) { global $i18n; return $i18n->translateWithContext(
 function _m($text) { global $i18n; return $i18n->markForTranslation($text); }
 ```
 
-If the variable holding your global `I18n` instance is not named `$i18n`, you have to adjust each occurrence of `global $i18n;` accordingly, of course.
+If the variable holding your global `I18n` instance is not named `$i18n`, you have to adjust each occurrence of `$i18n` in the snippet above accordingly, of course.
 
 ### Identifying, marking and formatting translatable strings
 
