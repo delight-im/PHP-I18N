@@ -29,7 +29,7 @@ if [ -z "${LOCALE_CODE}" ]; then
 	echo " * Creating generic POT (Portable Object Template) file"
 fi
 
-find . -iname "*.php" | xargs xgettext --output="${LOCALE_DOMAIN}.pot" --output-dir="${LOCALE_PARENT_DIR}" --language=PHP --from-code=UTF-8 --force-po --no-location --no-wrap --sort-output --copyright-holder="" --keyword --keyword="_:1,1t" --keyword="_f:1" --keyword="_fe:1" --keyword="_p:1,2,3t" --keyword="_pf:1,2" --keyword="_pfe:1,2" --keyword="_c:1,2c,2t" --keyword="_m:1,1t" --flag="_f:1:php-format" --flag="_fe:1:no-php-format" --flag="_pf:1:php-format" --flag="_pfe:1:no-php-format"
+find . -iname "*.php" -not -path "./vendor/*" | xargs xgettext --output="${LOCALE_DOMAIN}.pot" --output-dir="${LOCALE_PARENT_DIR}" --language=PHP --from-code=UTF-8 --force-po --no-location --no-wrap --sort-output --copyright-holder="" --keyword --keyword="_:1,1t" --keyword="_f:1" --keyword="_fe:1" --keyword="_p:1,2,3t" --keyword="_pf:1,2" --keyword="_pfe:1,2" --keyword="_c:1,2c,2t" --keyword="_m:1,1t" --flag="_f:1:php-format" --flag="_fe:1:no-php-format" --flag="_pf:1:php-format" --flag="_pfe:1:no-php-format"
 sed -i '/# SOME DESCRIPTIVE TITLE./d' "${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot"
 sed -i '/# This file is put in the public domain./d' "${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot"
 sed -i '/# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR./d' "${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot"
