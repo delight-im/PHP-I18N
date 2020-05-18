@@ -14,6 +14,7 @@ echo "Extracting and updating translations"
 LOCALE_CODE="${1:-}"
 LOCALE_PARENT_DIR="${2:-locale}"
 LOCALE_DOMAIN="${3:-messages}"
+GENERATE_FUZZY="${4:-fuzzy}"
 
 if [ ! -d "${LOCALE_PARENT_DIR}" ]; then
 	echo " * Error: Target directory “${LOCALE_PARENT_DIR}” not found"
@@ -51,7 +52,7 @@ if [ ! -z "${LOCALE_CODE}" ]; then
 	echo " * Creating PO (Portable Object) file for “${LOCALE_CODE}”"
 
 	if [ -f "${LOCALE_CONTENTS_DIR}/${LOCALE_DOMAIN}.po" ]; then
-		msgmerge --update --backup=none --suffix=".bak" --previous --force-po --no-location --no-wrap --sort-output "${LOCALE_CONTENTS_DIR}/${LOCALE_DOMAIN}.po" "${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot"
+		msgmerge --update --backup=none --suffix=".bak" --previous --force-po --no-location $( [[ "$GENERATE_FUZZY" == "nofuzzy" ]] && printf %s '--no-fuzzy-matching' ) --no-wrap --sort-output "${LOCALE_CONTENTS_DIR}/${LOCALE_DOMAIN}.po" "${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot"
 	else
 		msginit --input="${LOCALE_PARENT_DIR}/${LOCALE_DOMAIN}.pot" --output-file="${LOCALE_CONTENTS_DIR}/${LOCALE_DOMAIN}.po" --locale="${LOCALE_CODE}" --no-translator --no-wrap
 		sed -i '/\"Project-Id-Version: /d' "${LOCALE_CONTENTS_DIR}/${LOCALE_DOMAIN}.po"
