@@ -594,18 +594,23 @@ _($text);
 In order to extract all translatable strings from your PHP files, you can use the built-in tool for this task:
 
 ```bash
-# For the `mr-IN` locale, with the default directory, and with the default domain
+# For the `mr-IN` locale, with the default directory, with the default domain, and with fuzzy matching
 $ bash ./i18n.sh mr-IN
 ```
 
 ```bash
-# For the `sq-MK` locale, with the directory 'translations', and with the default domain
+# For the `sq-MK` locale, with the directory 'translations', with the default domain, and with fuzzy matching
 $ bash ./i18n.sh sq-MK translations
 ```
 
 ```bash
-# For the `yo-NG` locale, with the default directory, and with the domain 'plugin'
+# For the `yo-NG` locale, with the default directory, with the domain 'plugin', and with fuzzy matching
 $ bash ./i18n.sh yo-NG "" plugin
+```
+
+```bash
+# For the `fr-FR` locale, with the default directory, with the default domain, and without fuzzy matching
+$ bash ./i18n.sh fr-FR "" "" nofuzzy
 ```
 
 This creates or updates a PO (Portable Object) file for the specified language, which you can then translate, share with your translation team, or send to external translators.
@@ -613,18 +618,23 @@ This creates or updates a PO (Portable Object) file for the specified language, 
 If you only need a generic POT (Portable Object Template) file with all extracted strings, which is not specific to a certain language, just leave out the argument with the locale code (or set it to an empty string):
 
 ```bash
-# With the default directory and with the default domain
+# With the default directory, with the default domain, and with fuzzy matching
 $ bash ./i18n.sh
 ```
 
 ```bash
-# With the directory 'translations' and with the default domain
+# With the directory 'translations', with the default domain, and with fuzzy matching
 $ bash ./i18n.sh "" translations
 ```
 
 ```bash
-# With the default directory and with the domain 'plugin'
+# With the default directory, with the domain 'plugin', and with fuzzy matching
 $ bash ./i18n.sh "" "" plugin
+```
+
+```bash
+# With the default directory, with the default domain, and without fuzzy matching
+$ bash ./i18n.sh "" "" "" nofuzzy
 ```
 
 ### Translating the extracted strings
