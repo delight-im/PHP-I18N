@@ -23,14 +23,30 @@ final class Http {
 	 * @return string|null
 	 */
 	public static function matchClientLanguages(array $supportedLanguages, $leniency = null, $httpAcceptLanguage = null) {
+		return self::matchPreferredLocales(
+			self::determineClientLanguages($httpAcceptLanguage),
+			$supportedLanguages,
+			$leniency
+		);
+	}
+
+	/**
+	 * Finds the best match for the specified locales in the list of supported locales
+	 *
+	 * @param string[] $supportedLocales
+	 * @param string[] $preferredLocales a list of locales in order of preference (most favored first)
+	 * @param int|null $leniency (optional) the desired leniency for the lookup as one of the constants from {@see Leniency}
+	 * @return string|null
+	 */
+	public static function matchPreferredLocales(array $preferredLocales, array $supportedLocales, $leniency = null) {
 		$leniency = !empty($leniency) ? (int) $leniency : Leniency::MODERATE;
 
-		foreach (self::determineClientLanguages($httpAcceptLanguage) as $httpClientLanguage) {
-			$desired = self::parseClientLanguage($httpClientLanguage);
+		foreach ($preferredLocales as $preferredLocale) {
+			$desired = self::parseClientLanguage($preferredLocale);
 			$bestMatchCode = null;
 			$bestMatchAffinity = null;
 
-			foreach ($supportedLanguages as $supported) {
+			foreach ($supportedLocales as $supported) {
 				$affinity = Affinity::calculate(
 					$desired[0],
 					$desired[1],
