@@ -48,12 +48,18 @@ final class I18n {
 		if (!empty($host)) {
 			$subdomain = \explode('.', $host, 2)[0];
 
-			try {
-				$this->setLocaleManually($subdomain);
+			if (!empty($subdomain)) {
+				$subdomainMatches = Http::matchPreferredLocales([ $subdomain ], $this->supportedLocales, $leniency);
 
-				return;
+				if (!empty($subdomainMatches)) {
+					try {
+						$this->setLocaleManually($subdomainMatches);
+
+						return;
+					}
+					catch (LocaleNotSupportedException $ignored) {}
+				}
 			}
-			catch (LocaleNotSupportedException $ignored) {}
 		}
 
 		$path = !empty($_SERVER['REQUEST_URI']) ? \parse_url($_SERVER['REQUEST_URI'], \PHP_URL_PATH) : null;
@@ -62,12 +68,16 @@ final class I18n {
 			$pathPrefix = \explode('/', \trim($path, '/'), 2)[0];
 
 			if (!empty($pathPrefix)) {
-				try {
-					$this->setLocaleManually($pathPrefix);
+				$pathPrefixMatches = Http::matchPreferredLocales([ $pathPrefix ], $this->supportedLocales, $leniency);
 
-					return;
+				if (!empty($pathPrefixMatches)) {
+					try {
+						$this->setLocaleManually($pathPrefixMatches);
+
+						return;
+					}
+					catch (LocaleNotSupportedException $ignored) {}
 				}
-				catch (LocaleNotSupportedException $ignored) {}
 			}
 		}
 
