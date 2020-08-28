@@ -153,7 +153,13 @@ $i18n->setLocaleAutomatically();
 This will check and decide based on the following factors (in that order):
 
  1. **Subdomain** with locale code (e.g. `da-DK.example.com`)
+
+    (**Note:** Locale codes in the (leftmost) subdomain are case-insensitive, i.e. `da-dk` works as well, and you can leave out region or script names, i.e. merely `da` would be sufficient here.)
+
  1. **Path prefix** with locale code (e.g. `http://www.example.com/pt-BR/welcome.html`)
+
+    (**Note:** Locale codes in the path prefix are case-insensitive, i.e. `pt-br` works as well, and you can leave out region or script names, i.e. merely `pt` would be sufficient here.)
+
  1. **Query string** with locale code
     1. the `locale` parameter
     1. the `language` parameter
