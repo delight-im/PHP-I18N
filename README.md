@@ -12,6 +12,12 @@ Provide your application in multiple languages, to users in various countries, w
 
 **Note:** On Windows, you may have to use the non-thread-safe (NTS) version of PHP.
 
+**macOS:** To generate the po and mo files with the packaged bash script, install gnu-sed.
+```zsh
+$ brew install gnu-sed
+$ PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
+```
+
 ## Installation
 
  1. Include the library via Composer [[?]](https://github.com/delight-im/Knowledge/blob/master/Composer%20(PHP).md):
@@ -20,7 +26,12 @@ Provide your application in multiple languages, to users in various countries, w
     $ composer require delight-im/i18n
     ```
 
- 1. Include the Composer autoloader:
+ 2. Copy the i18n bash script to the root of your project
+     ```bash
+    $ cp vendor/delight-im/i18n/i18n.sh .
+    ```
+
+ 3. Include the Composer autoloader:
 
     ```php
     require __DIR__ . '/vendor/autoload.php';
@@ -114,7 +125,7 @@ $i18n = new \Delight\I18n\I18n([
 
 ### Directory and file names for translation files
 
-Your translation files will later have to be stored in the following location:
+Your translation files will later have to be stored in the following location relative to the root of your project:
 
 ```
 locale/<LOCALE_CODE>/LC_MESSAGES/messages.po
