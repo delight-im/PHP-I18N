@@ -47,7 +47,7 @@ sed -i '0,/\"Content-Type: text\/plain; charset=CHARSET\\n\"/{s/\"Content-Type: 
 if [ ! -z "${LOCALE_CODE}" ]; then
 	LOCALE_CONTENTS_DIR="${LOCALE_PARENT_DIR}/${LOCALE_CODE}/LC_MESSAGES"
 
-	mkdir --parents "${LOCALE_CONTENTS_DIR}"
+	mkdir -p "${LOCALE_CONTENTS_DIR}"
 
 	echo " * Creating PO (Portable Object) file for “${LOCALE_CODE}”"
 
