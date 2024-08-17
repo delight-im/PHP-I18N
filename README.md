@@ -158,18 +158,40 @@ This will check and decide based on the following factors (in that order):
 
     (**Note:** Locale codes in the (leftmost) subdomain are case-insensitive, i.e. `da-dk` works as well, and you can leave out region or script names, i.e. merely `da` would be sufficient here.)
 
- 1. **Path prefix** with locale code (e.g. `http://www.example.com/pt-BR/welcome.html`)
+ 2. **Path prefix** with locale code (e.g. `http://www.example.com/pt-BR/welcome.html`)
 
     (**Note:** Locale codes in the path prefix are case-insensitive, i.e. `pt-br` works as well, and you can leave out region or script names, i.e. merely `pt` would be sufficient here.)
 
- 1. **Query string** with locale code
+ 3. **Query string** with locale code
     1. the `locale` parameter
     1. the `language` parameter
     1. the `lang` parameter
     1. the `lc` parameter
- 1. **Session field** defined via `I18n#setSessionField` (e.g. `$i18n->setSessionField('locale');`)
- 1. **Cookie** defined via `I18n#setCookieName` (e.g. `$i18n->setCookieName('lc');`), with an optional lifetime defined via `I18n#setCookieLifetime` (e.g. `$i18n->setCookieLifetime(60 * 60 * 24);`), where a value of `null` means that the cookie is to expire at the end of the current browser session
- 1. **HTTP request header** `Accept-Language` (e.g. `en-US,en;q=0.5`)
+ 4. **Session field** defined via `I18n#setSessionField` (e.g. `$i18n->setSessionField('locale');`)
+ 5. **Cookie** defined via `I18n#setCookieName` (e.g. `$i18n->setCookieName('lc');`), with an optional lifetime defined via `I18n#setCookieLifetime` (e.g. `$i18n->setCookieLifetime(60 * 60 * 24);`), where a value of `null` means that the cookie is to expire at the end of the current browser session
+ 6. **Cookie** configuration:
+
+- Name: defined via `I18n#setCookieName` (e.g. `$i18n->setCookieName('lc');`)
+- Lifetime: optional, defined via `I18n#setCookieLifetime` (e.g. `$i18n->setCookieLifetime(60 * 60 * 24);`). A value of `null` means the cookie will expire at the end of the current browser session.
+- Path: set using `I18n#setCookiePath` (e.g. `$i18n->setCookiePath('/');`)
+- Domain: set using `I18n#setCookieDomain` (e.g. `$i18n->setCookieDomain('.example.com');`)
+- Secure flag: set using `I18n#setCookieSecure` (e.g. `$i18n->setCookieSecure(true);`)
+- HttpOnly flag: set using `I18n#setCookieHttpOnly` (e.g. `$i18n->setCookieHttpOnly(true);`)
+- SameSite attribute: set using `I18n#setCookieSameSite` (e.g. `$i18n->setCookieSameSite('Lax');`)
+
+Example of full cookie configuration:
+
+```php
+$i18n->setCookieName('lc');
+$i18n->setCookieLifetime(60 * 60 * 24); // 24 hours
+$i18n->setCookiePath('/');
+$i18n->setCookieDomain('.example.com');
+$i18n->setCookieSecure(true);
+$i18n->setCookieHttpOnly(true);
+$i18n->setCookieSameSite('Lax');
+```
+This configuration allows for fine-grained control over the cookie used to store the user's language preference, enhancing security and compliance with modern web standards.
+ 7. **HTTP request header** `Accept-Language` (e.g. `en-US,en;q=0.5`)
 
 You will usually choose a single one of these options to store and transport your locale codes, with other factors (specifically the last one) as fallback options. The first three options (and the last one) may provide advantages in terms of search engine optimization (SEO) and caching.
 

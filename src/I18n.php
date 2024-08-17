@@ -36,6 +36,15 @@ final class I18n {
 	private $cookieName;
 	/** @var int|null the lifetime (in seconds) of the cookie to use for retrieving and storing the preferred locale */
 	private $cookieLifetime;
+	/** @var string the path of the cookie */
+	private $cookiePath = '/';
+	/** @var string the domain of the cookie */
+	private $cookieDomain = '';
+	/** @var bool force use secure mode for the cookie */
+	private $cookieSecure = false;
+	/** @var bool force use HTTP only for the cookie */
+	private $cookieHttpOnly = false;
+	private $cookieSameSite = 'Lax';
 
 	/**
 	 * Attempts to set the locale automatically
@@ -157,11 +166,14 @@ final class I18n {
 						\setcookie(
 							$this->cookieName,
 							$supportedLocale,
-							!empty($this->cookieLifetime) ? \time() + (int) $this->cookieLifetime : 0,
-							'/',
-							'',
-							false,
-							false
+							[
+								'expires' => !empty($this->cookieLifetime) ? \time() + (int) $this->cookieLifetime : 0,
+								'path' => $this->cookiePath,
+								'domain' => $this->cookieDomain,
+								'secure' => $this->cookieSecure,
+								'httponly' => $this->cookieHttpOnly,
+								'samesite' => $this->cookieSameSite
+							]
 						);
 					}
 				}
@@ -645,5 +657,88 @@ final class I18n {
 	private static function makeDefaultDirectory() {
 		return __DIR__ . '/../../../../locale';
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getCookiePath()
+	{
+		return $this->cookiePath;
+	}
+
+	/**
+	 * @param string $cookiePath
+	 */
+	public function setCookiePath($cookiePath)
+	{
+		$this->cookiePath = $cookiePath;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCookieDomain()
+	{
+		return $this->cookieDomain;
+	}
+
+	/**
+	 * @param string $cookieDomain
+	 */
+	public function setCookieDomain($cookieDomain)
+	{
+		$this->cookieDomain = $cookieDomain;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCookieSecure()
+	{
+		return $this->cookieSecure;
+	}
+
+	/**
+	 * @param bool $cookieSecure
+	 */
+	public function setCookieSecure($cookieSecure)
+	{
+		$this->cookieSecure = $cookieSecure;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCookieHttpOnly()
+	{
+		return $this->cookieHttpOnly;
+	}
+
+	/**
+	 * @param bool $cookieHttpOnly
+	 */
+	public function setCookieHttpOnly($cookieHttpOnly)
+	{
+		$this->cookieHttpOnly = $cookieHttpOnly;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCookieSameSite()
+	{
+		return $this->cookieSameSite;
+	}
+
+	/**
+	 * @param string $cookieSameSite
+	 */
+	public function setCookieSameSite($cookieSameSite)
+	{
+		$this->cookieSameSite = $cookieSameSite;
+	}
+
+
+
 
 }
